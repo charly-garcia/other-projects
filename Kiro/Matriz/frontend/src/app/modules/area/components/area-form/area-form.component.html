@@ -1,0 +1,42 @@
+<div class="area-form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ isEditMode ? 'Editar Área' : 'Nueva Área' }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="areaForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name" placeholder="Ingrese el nombre del área" required>
+          <mat-error *ngIf="areaForm.get('name')?.hasError('required')">
+            El nombre es requerido
+          </mat-error>
+          <mat-error *ngIf="areaForm.get('name')?.hasError('maxlength')">
+            El nombre no puede exceder 100 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput formControlName="description" placeholder="Ingrese una descripción" rows="4"></textarea>
+          <mat-error *ngIf="areaForm.get('description')?.hasError('maxlength')">
+            La descripción no puede exceder 500 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="areaForm.invalid || (isLoading$ | async)">
+            <mat-spinner *ngIf="isLoading$ | async" diameter="20"></mat-spinner>
+            <span *ngIf="!(isLoading$ | async)">{{ isEditMode ? 'Actualizar' : 'Crear' }}</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,35 @@
+[Unit]
+Description=App Inventory Management Backend Service
+After=network.target
+
+[Service]
+Type=simple
+User=appuser
+Group=appuser
+WorkingDirectory=/opt/app-inventory-management
+
+# Environment variables (will be overridden by deployment script)
+Environment="SPRING_PROFILES_ACTIVE=production"
+Environment="SERVER_PORT=8080"
+
+# Java options
+Environment="JAVA_OPTS=-Xmx768m -Xms512m -XX:+UseG1GC -XX:MaxGCPauseMillis=200"
+
+# Execute the application
+ExecStart=/usr/bin/java ${JAVA_OPTS} -jar /opt/app-inventory-management/app.jar
+
+# Restart policy
+Restart=on-failure
+RestartSec=10
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=app-inventory-management
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

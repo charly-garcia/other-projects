@@ -1,0 +1,32 @@
+# Example Terraform variables file
+# Copy this file to terraform.tfvars and update with your values
+
+aws_region  = "us-east-1"
+environment = "dev"
+
+# VPC Configuration
+vpc_cidr             = "10.0.0.0/16"
+availability_zones   = ["us-east-1a", "us-east-1b"]
+public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
+private_subnet_cidrs = ["10.0.10.0/24", "10.0.11.0/24"]
+
+# RDS Configuration
+db_name                 = "matriz_usuarios"
+db_username             = "admin"
+db_password             = "CHANGE_ME_SECURE_PASSWORD"  # Use AWS Secrets Manager in production
+db_instance_class       = "db.t3.micro"
+db_allocated_storage    = 20
+db_multi_az             = false  # Set to true for production
+db_backup_retention_days = 7
+
+# ALB Configuration
+certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/your-certificate-id"  # Replace with your ACM certificate ARN
+
+# Application Configuration
+app_port = 8080
+
+# Frontend (CloudFront) Configuration
+# CloudFront certificate MUST be in us-east-1 region
+cloudfront_certificate_arn = ""  # Leave empty to use default CloudFront certificate, or provide ACM cert ARN from us-east-1
+cloudfront_domain_aliases  = []  # Example: ["app.example.com", "www.app.example.com"] - requires cloudfront_certificate_arn
+cloudfront_price_class     = "PriceClass_100"  # Options: PriceClass_100 (US/Canada/Europe), PriceClass_200 (most locations), PriceClass_All (all locations)

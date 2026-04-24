@@ -1,0 +1,2 @@
+# Common DTOs package
+# This package will contain shared DTOs like PagedResponse<T>, ErrorResponse

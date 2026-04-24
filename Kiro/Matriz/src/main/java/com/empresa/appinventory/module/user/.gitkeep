@@ -1,0 +1,2 @@
+# User module package
+# This package will contain UserController, UserService, UserRepository, UserEntity, UserDTO

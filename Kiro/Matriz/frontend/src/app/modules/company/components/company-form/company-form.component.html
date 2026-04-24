@@ -1,0 +1,45 @@
+<div class="company-form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ isEditMode ? 'Editar Compañía' : 'Nueva Compañía' }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name" placeholder="Ingrese el nombre de la compañía" required>
+          <mat-error *ngIf="companyForm.get('name')?.hasError('required')">
+            El nombre es requerido
+          </mat-error>
+          <mat-error *ngIf="companyForm.get('name')?.hasError('maxlength')">
+            El nombre no puede exceder 100 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>País</mat-label>
+          <input matInput formControlName="country" placeholder="Ingrese el país" required>
+          <mat-error *ngIf="companyForm.get('country')?.hasError('required')">
+            El país es requerido
+          </mat-error>
+          <mat-error *ngIf="companyForm.get('country')?.hasError('maxlength')">
+            El país no puede exceder 100 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="companyForm.invalid || (isLoading$ | async)">
+            <mat-spinner *ngIf="isLoading$ | async" diameter="20"></mat-spinner>
+            <span *ngIf="!(isLoading$ | async)">{{ isEditMode ? 'Actualizar' : 'Crear' }}</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

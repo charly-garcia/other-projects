@@ -1,0 +1,20 @@
+<div class="application-list-container">
+  <div class="header">
+    <h1>Aplicaciones</h1>
+    <button mat-raised-button color="primary" (click)="onCreateNew()">
+      <mat-icon>add</mat-icon>
+      Nueva Aplicación
+    </button>
+  </div>
+
+  <app-data-table
+    [columns]="columns"
+    [dataSource$]="dataSource$"
+    [pageSize]="pageSize"
+    [searchable]="true"
+    (pageChange)="onPageChange($event)"
+    (searchChange)="onSearchChange($event)"
+    (editAction)="onEdit($event)"
+    (deleteAction)="onDelete($event)">
+  </app-data-table>
+</div>

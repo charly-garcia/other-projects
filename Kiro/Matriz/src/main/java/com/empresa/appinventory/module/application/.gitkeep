@@ -1,0 +1,2 @@
+# Application module package
+# This package will contain ApplicationController, ApplicationService, ApplicationRepository, ApplicationEntity, ApplicationDTO

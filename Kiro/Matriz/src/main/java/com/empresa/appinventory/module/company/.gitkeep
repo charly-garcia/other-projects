@@ -1,0 +1,2 @@
+# Company module package
+# This package will contain CompanyController, CompanyService, CompanyRepository, CompanyEntity, CompanyDTO

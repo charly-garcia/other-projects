@@ -1,0 +1,196 @@
+<div class="user-form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ isEditMode ? 'Editar Usuario' : 'Nuevo Usuario' }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <!-- Required Fields Section -->
+        <h3 class="section-title">Información Básica</h3>
+        
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" placeholder="Ingrese el nombre" required>
+            <mat-error *ngIf="userForm.get('name')?.hasError('required')">
+              El nombre es requerido
+            </mat-error>
+            <mat-error *ngIf="userForm.get('name')?.hasError('maxlength')">
+              El nombre no puede exceder 100 caracteres
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Correo Electrónico</mat-label>
+            <input matInput formControlName="email" type="email" placeholder="usuario@ejemplo.com" required>
+            <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+              El correo es requerido
+            </mat-error>
+            <mat-error *ngIf="userForm.get('email')?.hasError('email')">
+              Ingrese un correo válido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Tipo de Usuario</mat-label>
+            <mat-select formControlName="userType" required>
+              <mat-option *ngFor="let type of userTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="userForm.get('userType')?.hasError('required')">
+              El tipo de usuario es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Estatus</mat-label>
+            <mat-select formControlName="status" required>
+              <mat-option *ngFor="let status of statuses" [value]="status">
+                {{ status }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="userForm.get('status')?.hasError('required')">
+              El estatus es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Fecha de Alta</mat-label>
+            <input matInput [matDatepicker]="startPicker" formControlName="startDate" required>
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+            <mat-error *ngIf="userForm.get('startDate')?.hasError('required')">
+              La fecha de alta es requerida
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Fecha de Baja</mat-label>
+            <input matInput [matDatepicker]="endPicker" formControlName="endDate">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Alcance</mat-label>
+            <mat-select formControlName="scope" required>
+              <mat-option *ngFor="let scope of scopes" [value]="scope">
+                {{ scope }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="userForm.get('scope')?.hasError('required')">
+              El alcance es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Acceso a Información</mat-label>
+            <mat-select formControlName="informationAccess" required>
+              <mat-option *ngFor="let level of informationAccessLevels" [value]="level">
+                {{ level }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="userForm.get('informationAccess')?.hasError('required')">
+              El acceso a información es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Optional Fields Section -->
+        <h3 class="section-title">Información Adicional (Opcional)</h3>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Posición</mat-label>
+            <input matInput formControlName="position" placeholder="Ingrese la posición">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Manager</mat-label>
+            <input matInput formControlName="manager" placeholder="Ingrese el manager">
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Área</mat-label>
+            <mat-select formControlName="areaId">
+              <mat-option [value]="null">-- Ninguna --</mat-option>
+              <mat-option *ngFor="let area of areas" [value]="area.id">
+                {{ area.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Compañía</mat-label>
+            <mat-select formControlName="companyId">
+              <mat-option [value]="null">-- Ninguna --</mat-option>
+              <mat-option *ngFor="let company of companies" [value]="company.id">
+                {{ company.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Proveedor</mat-label>
+            <mat-select formControlName="supplierId">
+              <mat-option [value]="null">-- Ninguno --</mat-option>
+              <mat-option *ngFor="let supplier of suppliers" [value]="supplier.id">
+                {{ supplier.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Aplicación</mat-label>
+            <mat-select formControlName="applicationId">
+              <mat-option [value]="null">-- Ninguna --</mat-option>
+              <mat-option *ngFor="let application of applications" [value]="application.id">
+                {{ application.name }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>Seleccione una aplicación para habilitar el campo de rol</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Rol</mat-label>
+            <mat-select formControlName="roleId">
+              <mat-option [value]="null">-- Ninguno --</mat-option>
+              <mat-option *ngFor="let role of roles" [value]="role.id">
+                {{ role.name }}
+              </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="userForm.get('roleId')?.disabled">
+              Primero seleccione una aplicación
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="userForm.invalid || (isLoading$ | async)">
+            <mat-spinner *ngIf="isLoading$ | async" diameter="20"></mat-spinner>
+            <span *ngIf="!(isLoading$ | async)">{{ isEditMode ? 'Actualizar' : 'Crear' }}</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
